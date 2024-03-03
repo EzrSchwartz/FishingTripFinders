@@ -83,14 +83,14 @@ sendingemail = "fishingtripfinder@outlook.com"
 
 recievingemails = ["ezra.n.schwartz@gmail.com","adam.m.schwartz@gmail.com"]
 
-
+dfstring = df.to_string()
 
 # Create the message
 msg = """\
 Subject: Hello, here are the bookings avalible
 
 
-"""+str(df)
+"""+dfstring
 
 
 
