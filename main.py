@@ -16,7 +16,8 @@ import pandas as pd
 
 
 nametext = []
-
+departingflightstext = []
+returningflightstext = []
 pricetext = []
 
 # Set the number of days for the stay
@@ -34,13 +35,18 @@ checkout_date = checkin_date + relativedelta(days=days)
 # Setup
 driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()))
 
+
+driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()))
+
 # Navigate to the website
 driver.get(f'https://www.satorealestate.com/vacation-rentals/results/?searchform=1&arrive_date={checkin_date.month}%2F{checkin_date.day}%2F{checkin_date.year}&depart_date={checkout_date.month}%2F{checkout_date.day}%2F{checkout_date.year}&cwrsearch=1&Bedrooms=2')
 
 
 links = []
 # Wait for the JavaScript to load
-driver.implicitly_wait(10)
+driver.implicitly_wait(2)
+
+
 
 # Find the elements with the class 'boxprice'
 prices = driver.find_elements(By.CSS_SELECTOR, '.boxprice')
@@ -70,8 +76,27 @@ df = pd.DataFrame(data=d)
 # Print the text of each element
 print(df)
 
+
+
 # Close the driver
 driver.quit()
+driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()))
+
+
+driver.get(f'https://www.aveloair.com/flight-search/deeplink/searchflights/roundtrip/HVN/TPA/{checkin_date}/{checkout_date}/2/0/0/0/?calendar=false')
+
+
+driver.implicitly_wait(2)
+
+flightselector = driver.find_elements(By.CSS_SELECTOR, '.flight-selector')
+for outer_div in flightselector:
+    print((outer_div.find_element(By.CSS_SELECTOR, '.route-label')).text)
+    if(  "Depart:" == (outer_div.find_element(By.CSS_SELECTOR, '.route-label').text)):
+        departingflights = outer_div.find_elements(By.CSS_SELECTOR, '.btn-fare-wheel')
+
+        for flight in departingflights:
+            departingflightstext.append(flight.text)
+        print(departingflightstext)
 
 import smtplib
 
@@ -83,9 +108,9 @@ server.login("fishingtripfinder@outlook.com", "fishtrip!23")
 
 sendingemail = "fishingtripfinder@outlook.com"
 
-recievingemails = ["ezra.n.schwartz@gmail.com","adam.m.schwartz@gmail.com"]
+recievingemails = ["ezra.n.schwartz@gmail.com"]
 
-dfstring = df.to_string()
+dfstring = df.to_string(index=False)
 
 # Create the message
 msg = """\
