@@ -4,14 +4,14 @@
 
 
 
-
+from timestamp import timestamps
 from selenium import webdriver
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
+import smtplib
 import pandas as pd
 
 
@@ -40,6 +40,7 @@ driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()))
 
 # Navigate to the website
 driver.get(f'https://www.satorealestate.com/vacation-rentals/results/?searchform=1&arrive_date={checkin_date.month}%2F{checkin_date.day}%2F{checkin_date.year}&depart_date={checkout_date.month}%2F{checkout_date.day}%2F{checkout_date.year}&cwrsearch=1&Bedrooms=2')
+
 
 
 links = []
@@ -98,7 +99,6 @@ for outer_div in flightselector:
             departingflightstext.append(flight.text)
         print(departingflightstext)
 
-import smtplib
 
 # Set up the SMTP server and log into your account
 server = smtplib.SMTP('smtp.office365.com', 587)
