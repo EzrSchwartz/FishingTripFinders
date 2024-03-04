@@ -13,6 +13,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import smtplib
 import pandas as pd
+import numpy as np
 
 
 nametext = []
@@ -73,7 +74,13 @@ for link in links:
 d = {'Names': nametext,'Prices': pricetext, 'Link': links}
 
 
-df = pd.DataFrame(data=d)
+df = pd.DataFrame(columns=[ 'Arrival Date', 'Departure Date', 'ID','Names','Price','Link'])
+
+df["Names"] = nametext
+df["Price"] = pricetext
+df["Links"] = links
+
+
 # Print the text of each element
 print(df)
 
@@ -95,10 +102,16 @@ for outer_div in flightselector:
     if(  "Depart:" == (outer_div.find_element(By.CSS_SELECTOR, '.route-label').text)):
         departingflights = outer_div.find_elements(By.CSS_SELECTOR, '.btn-fare-wheel')
 
+
+
         for flight in departingflights:
-            departingflightstext.append(flight.text)
+            if (str(checkout_date).replace("-","/") == flight.find_element(By.CSS_SELECTOR, '.id').text):
+                if((flight.find_element(By.CSS_SELECTOR, '.fare-price').text).find("Sold")):
+                    departingflightstext.append(flight.find_element(By.CSS_SELECTOR, '.fare-price').text)
+
         print(departingflightstext)
 
+df = df.assign(industry='yyy')
 
 # Set up the SMTP server and log into your account
 server = smtplib.SMTP('smtp.office365.com', 587)
