@@ -74,12 +74,11 @@ for link in links:
 d = {'Names': nametext,'Prices': pricetext, 'Link': links}
 
 
-df = pd.DataFrame(columns=[ 'Arrival Date', 'Departure Date', 'ID','Names','Price','Link'])
+df = pd.DataFrame(columns=[ 'Arrival Date', 'Departure Date', 'ID','Names','Rental Price','Link','Plane Price'])
 
 df["Names"] = nametext
 df["Price"] = pricetext
 df["Links"] = links
-
 
 # Print the text of each element
 print(df)
@@ -110,6 +109,7 @@ for outer_div in flightselector:
                     departingflightstext.append(flight.find_element(By.CSS_SELECTOR, '.fare-price').text)
 
         print(departingflightstext)
+df["Plane Price"] = min(departingflights)
 
 df = df.assign(industry='yyy')
 
