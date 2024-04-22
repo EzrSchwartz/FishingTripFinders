@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector import errorcode
 
 try:
-    cnx = mysql.connector.connect(user='FishTripFinder', password='20080921',
+    cnx = mysql.connector.connect(user='FishTripFinder', password='PWD',
                                   host='localhost',
                                   database='satorentals')
 
