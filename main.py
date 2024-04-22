@@ -116,7 +116,7 @@ df = df.assign(industry='yyy')
 # Set up the SMTP server and log into your account
 server = smtplib.SMTP('smtp.office365.com', 587)
 server.starttls()
-server.login("fishingtripfinder@outlook.com", "fishtrip!23")
+server.login("fishingtripfinder@outlook.com", "PWD!23")
 
 
 sendingemail = "fishingtripfinder@outlook.com"
